@@ -3,6 +3,7 @@ import win32gui
 import win32process
 import psutil
 import time
+import logging
 
 def get_time():
     return datetime.now().strftime("%d-%m-%Y %H:%M:%S")
