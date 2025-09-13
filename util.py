@@ -25,5 +25,9 @@ def get_save_info(win_info: dict = None) -> str:
     return f"{get_time()} [{win_info['exe']} --> {win_info['title']}]"
 
 
+def log(*args, **kwargs):
+    print(*args, **kwargs)
+    return
+
 if __name__ == "__main__":
     print(get_save_info())

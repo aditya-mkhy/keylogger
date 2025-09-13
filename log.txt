@@ -1,6 +1,7 @@
-11-09-2025 20:56:39 [SearchHost.exe --> Search] [name : Search box] no
-11-09-2025 20:56:52 [Notepad.exe --> *server_2025-09-10.log - Notepad] [name : Text editor] This thing is working... woow
-11-09-2025 20:56:56 [Notepad.exe --> *server_2025-09-10.log - Notepad] [name : Text editor] 
-11-09-2025 20:57:09 [Notepad.exe --> *server_2025-09-10.log - Notepad] [name : Text editor] fuck i can't belive that..
-11-09-2025 20:57:37 [msedge.exe --> Instagram - [InPrivate] - Microsoft​ Edge] [name : Phone number, username, or email] my_love_
-11-09-2025 20:57:45 [msedge.exe --> Instagram - [InPrivate] - Microsoft​ Edge] [name : Password] Love@u_plk
+12-09-2025 16:03:29 [chrome.exe --> New tab - Google Chrome] [name : Address and search bar] SpecialKey : '\x14'
+12-09-2025 16:03:37 [chrome.exe --> New tab - Google Chrome] [name : Address and search bar] instagram.com
+12-09-2025 16:03:38 [chrome.exe --> New tab - Google Chrome]  Key.enter
+12-09-2025 16:03:43 [chrome.exe --> Instagram - Google Chrome] [name : Mobile number, username or email address] Key.backspace
+12-09-2025 16:03:52 [chrome.exe --> Instagram - Google Chrome] [name : Mobile number, username or email address] palakadi
+12-09-2025 16:03:55 [chrome.exe --> Instagram - Google Chrome] [name : Password] Key.backspace
+12-09-2025 16:04:04 [chrome.exe --> Instagram - Google Chrome] [name : Password] loveu@love2021

