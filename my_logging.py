@@ -1,25 +1,29 @@
 from datetime import datetime
 import atexit, signal, sys, os
 import time
-from util import log
+from util import log, get_filename
 
 class Logger:
-    def __init__(self, filename = "log.txt", max_size_mb = 100):
-        self.filename = filename
+    def __init__(self, max_size_mb = 100):
+
         self.max_size = max_size_mb * 1024 * 1024
-        self.file = open(self.filename, "a+", encoding="utf-8")
+        self.filename = get_filename(max_size=self.max_size)
+
+
+        self.file = open(self.filename, "a", encoding="utf-8")
 
         # Fail-safe
         atexit.register(self.close)
         signal.signal(signal.SIGTERM, self._handle_exit)
         signal.signal(signal.SIGINT, self._handle_exit)
 
+
     
 
     def _check_rotation(self):
         if self.file and os.path.getsize(self.file.name) >= self.max_size:
             self.close()
-            self.file = open(self.filename, "w", encoding="utf-8")  # reset
+            self.file = open(get_filename(max_size=self.max_size), "w", encoding="utf-8")  # reset
             self.write("---------------- OpeningFile -----------------")
 
     def write(self, message, overwrite=False):

