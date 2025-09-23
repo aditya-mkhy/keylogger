@@ -14,3 +14,6 @@
 12-09-2025 17:00:28 [chrome.exe --> Pigeon by Stovekraft Swift Plus Multi-Cook Kettle 1.5L, with Steamer, Egg Rack - Blue | Double Layered | Food Grade Stainless Steel Inner wall | Glass Lid | Auto Shut-off : Amazon.in: Home & Kitchen - Google Chrome] [name : Search Amazon.in] Key.backspace
 12-09-2025 17:01:06 [chrome.exe --> New tab - Google Chrome] [name : Address and search bar] mint emi
 12-09-2025 17:01:06 [chrome.exe --> New tab - Google Chrome] [name : New tab] Key.enter
+12-09-2025 17:01:40 [chrome.exe --> mint emi - Google Search - Google Chrome] [name : Search] 0 emi sh
+12-09-2025 17:04:44 [chrome.exe --> New tab - Google Chrome] [name : Address and search bar] ama
+12-09-2025 17:04:49 [chrome.exe --> New tab - Google Chrome]  Key.enter
